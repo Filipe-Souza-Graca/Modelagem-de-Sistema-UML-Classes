@@ -1,0 +1,144 @@
+@startuml Sistema de Gestão de Projetos
+
+class Sistema{
+    - idSistema
+    +unidade
+    +linguagem
+    +interface
+    +pontoAcesso
+    +entradarSistema()
+    +sairSistema()
+
+}
+
+class  Usuario{
+    +idUsuario
+    +nome
+    +senha
+    +tempo
+    +controleAcesso()
+    +abrirUsuario()
+    +sairUsuario()
+}
+class  Projeto{
+    -idProjeto
+    +nome
+    +interface
+    +modelo
+    +iniciarProjeto()
+    +finalizarProjeto()
+}
+class  Equipe{
+    -idEquipe
+    +nome
+    +quantidade
+    +lider
+    +definirLider()
+    +modificarEquipe()
+
+
+}
+
+class  Tarefa{
+    -idTarefa
+    +nome
+    +tempo
+    +finalidade
+    +iniciarTarefa()
+    +finalizarTarefa()
+
+}
+
+class  SubTarefa{
+    -idSubtarefa
+    +nome
+    +divisao
+    +delegado
+    +reduzirTempo()
+    +juntarSubTarefa()
+
+}
+
+
+class  Comentario{
+    -idComentario
+    +nome
+    +linha
+    +elemento
+    +informarModificação()
+    +mudarPlano()
+    +adicionarImplementacao()
+
+}
+class  Anexo{
+    -idAnexo
+    +planilha
+    +links
+    +registros
+    +criarAnexo()
+    +modificarAnexo()
+
+}
+class  Status{
+    -idStatus
+    +log
+    +ligado
+    +desligado
+    +mostrarLog()
+    +iniciarStatus()
+    +desligarStatus()
+    
+}
+
+class Prioridades{
+    -idPrioridades
+    +alta
+    +baixa
+    +ignorar
+    +definirPrioridade()
+    +mudarPrioridade()
+}
+
+class HistoricoAlteracao{
+    -idHistoriocoAlteracao
+    +log
+    +registro
+    +data
+    +hora
+    +MostrarDataAlteracao()
+    +mostraQuemAlterou()
+    +mostrarLog()
+
+}
+
+
+'Herança
+'===========================
+Tarefa"1" <-- "1..*"SubTarefa
+Usuario"1..*" <-- "1"Equipe
+Usuario"1..*" <-- "1"Tarefa
+Usuario"1..*" <-- "1"SubTarefa
+
+'Composição
+'=============================
+Usuario"1..*" *-- "1..*"HistoricoAlteracao
+Status"1..*" *-- "1"Projeto
+
+
+
+'Agregação
+'===========================
+Comentario"1..*" --o "1..*"Usuario
+Projeto"1" o-- "1"Tarefa
+Projeto"1" o-- "1..*"Prioridades
+Sistema"1" o-- "1..*"Projeto
+Anexo"1..*" o-- "1..*"Tarefa
+Equipe"1" o-- "1..*"Tarefa
+
+'Associação
+'===========================
+Sistema"1" .. "1..*"Usuario
+Anexo"1..*" .. "1..*"Usuario
+Equipe"1..*" .. "1..*"SubTarefa
+
+@endnuml

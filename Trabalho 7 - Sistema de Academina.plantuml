@@ -1,0 +1,156 @@
+@startuml Sistema de Academina
+
+class Academia{
+- idAcademina
++nome
++ CNPJ
++ endereco
++HorarioFuncionamento
+-catracaAcesso
++abrirAcademina()
++fecharAcademia()
++liberarAcesso()
++restringirAcesso()
+}
+
+class Aluno{
+    -idAluno
+    + nome
+    +numeroMatricula
+    -CPF
+    +Telefone
+    -restricaoExercicio
+    -doenca
+    +restringirExercicio()
+    +liberarAcessoCatraca()
+    +cadastrarAluno()
+
+}
+
+class Instrutor{
+    -idInstrutor
+    + nome
+    -CPF
+    -registro
+    +horarioAtendimento
+    +ensinarAluno()
+    +indicarUsoCorretoEquipamento()
+    +registrarEntrada()
+    +registrarSaida()
+
+}
+
+class Treino{
+    -idTreino
+    +tempo
+    +intencidade
+    +mudanca
+    +MudarTreino()
+    +AumentarIntencidade()
+    +avaliarCondicionamento()
+}
+
+
+class Exercicio{
+    -idExercicio
+    +sessao
+    +repeticao
+    +dias
+    +fazerXsessaoPorXrepeticao()
+    +fazerExercicioPorXDias()
+
+
+}
+
+class Plano{
+    -idPlano
+    +Basico
+    +trimestral
+    +semestral
+    +Anual
+    +darDescontoAcrescimode2%PorPlano()
+    +CalcularPlano
+    +mudarPlano()
+
+}
+
+class Pagamento{
+    -idPagamento
+    -status
+    +formar()
+    +calcularTempoPagamento()
+    +informarPagamentoRealizado()
+
+}
+
+class AvaliacaoFisica{
+    -idAvaliacaoFisica
+    +dia
+    +status
+    +condicionamento
+    +avaliarMudanca()
+    +iniciarAvaliacao()
+    +informarMudanca()
+
+}
+
+class Equipamento{
+    -idEquipamento
+    +nome
+    +condicaoEquipamento
+    +instrucaoEquipamento
+    +usarEquipamentoPorInstrucao()
+    +guardarEquipamento()
+    +alterarEquipamento()
+
+}
+
+class Aula{
+    -idAula
+    +horario
+    +tempo
+    +dia
+    +instrutor
+    +iniciarAula()
+    +encerrarAula()
+    +usarEquipamento()
+
+}
+
+class Presenca{
+    -idPresenca
+    +identificacao
+    -RegistroDia
+    +horario
+    +biometria
+    +reconhecimentoFacial
+    +usarBiometria()
+    +usarReconehcimentoFacial()
+}
+
+'Associação
+'========================================
+
+Aluno "1" .. "1..*"Treino
+Treino "1..*" .. "1..*" Exercicio
+Aula"1..*" .. "1..*"Instrutor
+Aluno"1..*" .. "1"Instrutor
+'Composição
+'========================================
+
+Treino "1..*" *-- "1" Instrutor
+Academia "1" *-- "1..*" Presenca
+Academia "1" *-- "1..*"Plano
+AvaliacaoFisica --* Aluno
+
+'Agregação
+'========================================
+
+Aluno "1..*" --o "1..*"Aula
+Pagamento "1..*" o-- "1..*"Plano
+Aluno "1..*" --o "0..*" Presenca
+AvaliacaoFisica"1..*" --o "1..*"Instrutor
+Equipamento"1..*" --o "1"Academia
+Instrutor "1" --o "1..*"Presenca
+Treino"0..*" o-- "0..*"Equipamento
+@enduml

@@ -1,0 +1,68 @@
+@startuml - Diagrama de Classe de aula
+class Aluno {
++ Nome
++ CPF
++ Matricula
++ estudar()
++lerLivro()
++devolverLivro()
+
+ }
+
+class Livro{
++autor
++Edicao
++categoria
++quantidade
++pegarLivro()
++marcarPagina()
++guardarLivro()
+
+}
+
+class Emprestimo{
+-dataEmprestimo
+-dataDevolucao
++subtrairDataDevolucao()
++receberDevolucao()
+
+}
+
+class cobranca{
++valorInicial
++valorAtraso
+-valorDanificado
++valorMulta
++cobrarMulta()
++CalcularMultaComAtraso()
+}
+class Penalidade{
++BloqueioEmprestimo
+-ExclusaoAluno
++BloquearAcesso()
++ExcluirMatricula()
++RecadastrarAluno()
+}
+
+' Ligações de relacionamento
+' ===================================
+'Associação
+Aluno .. Livro
+Aluno "1.." .. "1.." Livro
+'====================================
+'Agregação
+
+Aluno "1" o-- "1..*" Emprestimo
+Emprestimo"0..*" o-- "1"cobranca
+Emprestimo"0..*" --o "1..*"Livro
+
+'=====================================
+'Composição
+
+Penalidade"1" --* "1..*"cobranca
+
+
+
+
+
+@enduml

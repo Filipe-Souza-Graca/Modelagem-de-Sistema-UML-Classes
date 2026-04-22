@@ -1,0 +1,153 @@
+@startuml Sistema de Gestão de Campeonato de Futebol
+
+class Campeonato{
+    -idCampeonato
+    -dataInicio
+    -dataFim
+    -horario
+    -Temporada
+    +iniciarcampeonato()
+    +finalizarCampeonato()
+    +suspenderCampeonato()
+
+}
+
+ class Time{
+    idTime
+    +nome
+    +uniforme
+    +nomeJogador
+    -medicos
+    +jogarPartida()
+    +emprestarJogador()
+    +receberVisitantes()
+
+ }
+
+ class Jogador{
+    -idJogador
+    +numeroCamisa
+    +status
+    +jogandoPartida()
+    +emReserva()
+ }
+
+ class Tecnico{
+    -idTecnico
+    -status
+    +subistituirJogador()
+    +escalarJogador()
+    +xingarJuiz()
+ }
+
+ class Partida{
+    -idPartida
+    +duracao 
+    +prorrogacao
+    +iniciarPartida()
+    +encerrarPartida()
+    +iniciarIntervalo()
+ }
+
+ class Estadio{
+    -idEstadio
+    +nome
+    + municipio
+    + visitante
+    + casa
+    +abrirPortas()
+    +fecharPortas()
+    +revistarTorcedores()
+ }
+
+ class Arbitragem{
+    -idArbitragem
+    +nome
+    +juiz
+    +bandeirinhas
+    +gandula
+    +iniciarJogo()
+    +finalizarJogo()
+    +darAdvertencia()
+    +darCartao()
+    +suspenderJogador()
+    
+ }
+
+class Gol{
+    -idGol
+    +golPartida
+    +quantidade
+    +golCasa
+    +golVisitante
+    +somarGolCasa()
+    +somarGolVisitante()
+    +informarHoraGol()
+}
+
+class Cartao{
+    -idCartao
+    +cartaoVermelho
+    +cartaoAmarelo
+    +somarCartaoAmarelo()
+    +aplicarSuspensaoPartida()
+}
+
+class Rodada{
+    -idRodada
+    +diaRodada
+    -quantidade
+    +TimesRorada
+    +CalcularRodadaFaltante()
+    +BuscarmedidaRodada()
+
+}
+Class Classificacao{
+    -idClassificacao
+    + totalTimes
+    + lista
+    + primeirosColocados
+    + ultimosColocados
+    +listarPrimeirosColocados()
+    +listarUltimosColocados()
+    +mudarPosicaoColocados()
+}
+
+class EstatisticaJogador{
+    -idEstatisticaJogador
+    +nome
+    +partidasJogadas
+    +golsFeitos
+    +DominioBolas
+    +tempoJogado
+    +calcularEstatistica()
+    +somarGolsFeitos()
+
+}
+'Associação
+Partida "0..*" .. "2..*"Time
+Gol"0..*" .. "1..*"Jogador
+Arbitragem"1" .. "0..*"Tecnico
+
+'Agregação
+Cartao "0..*" --o "0..*"Time
+Estadio "1..*" o-- "1" Partida
+EstatisticaJogador"0..*" --o "1..*"Jogador
+Rodada "0..*" --o "0..1"Time
+Gol "0..*" o-- "0..*"Time
+Arbitragem"1..*" o-- "17..*"Jogador
+Estadio "2" o-- "1"Time
+
+'Composiçao
+Campeonato"1..*" *-- "2..* "Time
+Rodada "1..*" --* "0..*"Campeonato
+Campeonato"1" *-- "0..*"Classificacao
+Classificacao"0..*" --* "1..*"Time
+Partida "1..*" *-- "1"Arbitragem
+Cartao"0..*" --o "0..*"Jogador
+
+'Herança
+Time "1" <-- "11..*" Jogador
+Time "1" <-- "0..*" Tecnico 
+
+@enduml

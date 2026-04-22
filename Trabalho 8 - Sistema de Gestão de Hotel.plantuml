@@ -1,0 +1,154 @@
+@startuml Sistema de Gestão de Hotel
+class Hotel{
+    -idHotel
+    +nome
+    +CNPJ
+    +endereco
+    +informarPontoReferencia()
+    +cadastrarHospedes()
+}
+
+class Hospede{
+    -idHospede
+    +nome
+    +telefone
+    +CPF
+    -idade
+    -restricaoAlimentar
+    +informarRestricao()
+    +informarDados()
+    +iniciarHospedagem()
+
+}
+
+class Quarto{
+    -idQuartos
+    +numero
+    +status
+    +andar
+    +itens
+    +informarStatus()
+    +informaQuemOcupa()
+
+}
+
+class Reserva{
+    -idReserva
+    +tempo
+    +hora
+    +iniciarTempo()
+    +encerrartempo()
+    +informarHoraEntradaSaida()
+}
+
+
+class Pagamento{
+    -idPagamento
+    +status
+    +Forma
+    +calculatTempoHospedagem()
+    +calculaUsoConsumo()
+    +Cobranca()
+}
+
+class Funcionario{
+    -idFuncionario
+    +nome
+    -CPF
+    +cracha
+    +Area
+    +AtenderCliente()
+    +encerrarExpediente()
+    +mudarFuncao()
+
+}
+
+class Servico{
+    -idServico
+    +Arrumar
+    +Cozinhar
+    +limpar
+    +atender
+    +AtenderCliente()
+    +cozinharParaCliente()
+    +ArrumarQuarto()
+}
+
+class Consumo{
+    -idConsumo
+    +Limpeza
+    +comida
+    +bebida
+    +ArrumarQuarto
+    +calcularItens()
+    +descontarPorTempo()
+}
+
+class CheckIn{
+    -idCheckIn
+    +disponibilidadeQuarto
+    +quartoLimpo
+    +reserva
+    +verificarReserva()
+    +verificarStatusQuarto()
+}
+
+class CheckOut{
+    -idCheckout
+    +itensFaltantes
+    +consumo
+    +servico
+    +calcularValorServico()
+    +calcularValorConsumo()
+    calcularValorFinal()
+}
+
+class Avaliacao{
+    -idAvaliacao
+    +nome
+    +data
+    +servicosPrestado
+    +irnformarNome()
+    +qualificarServico()
+    +enviarAvaliacao()
+
+}
+'Herança
+'=============================================
+Hospede"1..*" <-- "1..*"Reserva
+
+'Associação
+'=============================================
+
+Hotel"1" .. "1..*"Hospede
+Hospede"1..*" .. "1..*"Quarto
+Quarto"1..*" .. "1..*"Funcionario
+Reserva"1..*" .. "1..*"Funcionario
+Funcionario"1..*" .. "1..*"Hospede
+Hospede"1..*" .. "1..*"Servico
+Hospede "1..*" .. "1..*"Consumo
+
+'Agregação
+'=================================
+
+Hospede"1..*" o-- "1..*"Pagamento
+Quarto"1..*" o-- "1..*"Reserva
+Reserva"1..*" o-- "1..*"Pagamento
+Funcionario"1..*" o-- "1..*"Hotel
+Servico"1..*" o-- "1..*"Funcionario
+Consumo"1..*" o-- "1"CheckOut
+CheckIn"1..*" o-- "1..*"Quarto
+CheckOut"1..*" o-- "1..*"Servico
+
+'Composição
+'==================================
+
+Quarto"1..*" *-- "1..*"Pagamento
+Hotel"1" *-- "1..*"Quarto
+Hotel"1" *-- "1..*"Reserva
+CheckIn"1..*" *-- "1..*"Hospede
+Funcionario"1..*" *-- "1..*"Consumo
+Avaliacao"1" --* "1..*"Hospede
+Avaliacao"1..*" --* "1"Hotel
+
+@enduml 

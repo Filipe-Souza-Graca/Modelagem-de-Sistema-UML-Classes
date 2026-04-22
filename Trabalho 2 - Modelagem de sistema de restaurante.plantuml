@@ -1,0 +1,148 @@
+@startuml Modelagem de sistema de restaurante
+
+class Restaurante{
+- idRestaurante
+- Cnpj
+- ENDERECO
+- Nome
+- Telefone
+'----------------------------------------------------------------- 
++ adcionarMesa()
++ adcionarFuncionario()
+}
+Class Cliente{
+'-------------------------------------------------- 
+- idCliente
+- Nome
+-CPF
+-email
+'---------------------------------------- 
++Fazerpedido()
+'====================================
+
+}
+
+class Funcionario  {
+
+'------------------------------ 
+- idFuncionario
+- Nome
+- salario 
+- Matricula
+- Funcao
+'---------------------------- 
++ trabalhar()
+'============================== 
+
+}
+
+class Garcom{
+'------------------------------------ 
+- idGarcom
+- atenderCliente
+- entregarPeddo
+'------------------------------ 
++ Trabalhar()
+'============================= 
+
+}
+
+class Cozinheiro{
+'------------------------------------------------------ 
++ registraPedido()
++atenderPedido()
++Entregarpedido()
+'======================== 
+
+}
+
+class Mesa{
+'---------------------------------
+- idMesa
+- numero
+- capacidade
+- status
+'---------------------------------- 
++ocupar()
++liberar()
+'============================================== 
+
+}
+
+class Pedido{
+'------------------------------------------ 
+- idPedido
+- data
+-status
+'------------------------------------------- 
++adicionarItem
++eliminarItem
++fecharPedido()
+
+'==========================
+
+}
+
+class itemPedido{
+'------------------------------------- 
+- idItemPedido
+-valor
+-quantidade
+-tempoPreparo
+'------------------------------------------ 
++calcularSubtotal()
+
+'======================================== 
+
+}
+
+class Prato{
+'------------------------------ 
+-idPrato
+-Nome
+-Valor
+-categoria
+'------------------------------
++somarPrato()
+}
+
+class Pagamento{
+'--------------------------
+-idPagamento
+-formaPagamento
+-recibo
++imprimirRecibo()
++receber()
++recusarMetodo()
+
+}
+
+'Relacionamentos
+'+++++++++++++++++++++++++++++++++++++++++++++++++ 
+
+'Associação
+'-------------------------------- 
+
+Cliente "1.."  .. "0..*" Pedido
+Garcom "1.." .. "0..*" Pedido
+Cozinheiro "1.." .. "0..*" Prato
+itemPedido "1" .. "1" Prato
+Pedido "1.." .."1..*" Pagamento
+Cliente "1".. "..1" Mesa
+
+
+'=======================
+'Agregação
+Restaurante "1.." o-- "1...*" Mesa
+Restaurante "1.." o-- "0..*" Funcionario
+'-------------------------------------------
+
+'Composição
+'========================= 
+Pedido "1.." *-- "1...*" itemPedido
+'----------------------------
+'Herança
+Funcionario <-- Garcom 
+Funcionario <-- Cozinheiro
+
+@enduml

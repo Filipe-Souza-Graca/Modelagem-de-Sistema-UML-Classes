@@ -1,0 +1,140 @@
+@startuml Sistema de Clínica Médica
+
+
+class Clinica{
+    -idClinica
+    +nome
+    +telefone
+    +CNPJ
+    +receberPaciente()
+    +receberAmbulancia()
+    +transferirPaciente()
+    
+}
+class Paciente{
+    -idPaciente
+    +nome
+    -CPF
+    -identidade
+    -tipoSanguinio
+    -alergias
+    +dizerSintomas()
+    +buscarReceita()
+}
+class Medico{
+    -idMedico
+    +nome
+    +CRM
+    -CPF
+    -identidade
+    +darLaudo()
+    +iniciaInternaçao()
+    +darAuta()
+
+}
+class Consulta{
+    -idConsulta
+    +data
+    +local
+    +horario
+    +prescicao
+    informarDados()
+    indicarCondicao()
+
+}
+class Exame{
+    -idExame
+    +resultado
+    +carimboMedico
+    +validarReceita()
+    +informarCondicaoAtual()
+}
+class Receita{
+    -idReceita
+    +data
+    +nomeRemedio
+    +quantidade
+    +horas
+    +totalDias
+    +validarUso()
+    +InformarValidade()
+}
+class Especialidade{
+    -idEspecialidade
+    +nome
+    +horarioAtendimento
+    +dia
+    +consultarCliente()
+    +indicarOutroEspecialista()
+    +reagendarConsula()
+}
+class Agendamento{
+    -idAgendamento
+    +dia
+    +horario
+    -medicoEspecialista
+    +nomePaciente
+    +agendarConsultaPrevia()
+    +remarcarConsultaPorFalta()
+    +recusarAgendamento()
+}
+class Pagamento{
+    -idPagamento
+    -status
+    -forma
+    -PlanoSaude
+    +InformaCobranca()
+    +substituirCompranca()
+    +confirmarPagamento()
+
+}
+class Sala{
+    -idSala
+    +numeroSala
+    +nome
+    +status
+    +leitos
+    +ReceberPaciente()
+    +InformarMedicoAtendimento()
+    +dizerLeitosLiberados()
+
+}
+class Prontuario{
+    -idProntuario
+    -atualizacao
+    -data
+    +verificarMudancas()
+    +incrementaAlteracao()
+    +excluirDados()
+    +transferirParaOutraClinica()
+
+}
+
+'Herança
+'========================================
+Medico"1..*" <-- "0..*"Especialidade
+Exame"1..*" --> "1"Medico
+Exame"0..*" --> "1"Paciente
+Exame"1..*" <-- "0..*"Prontuario
+
+'========================================
+'Associação
+Clinica"1" .. "1..*"Paciente
+Paciente"1" .. "1"Receita
+Medico"1" .. "1..*"Sala
+Paciente"1" .. "1"Sala
+
+'Agregacão
+'========================================
+Medico"1" o-- "1..*"Receita
+Clinica"1..*" o-- "1..*"Pagamento
+Clinica "1" o-- "1..*"Consulta
+Agendamento"1..*" o-- "1..*"Medico
+Clinica"1" o--"1..*"Prontuario
+Paciente"1" o-- "1..*"Pagamento
+
+'Composiçao
+'=======================================
+Agendamento"1" --* "1..*"Paciente
+Paciente"1" *-- "1..*"Consulta
+@enduml

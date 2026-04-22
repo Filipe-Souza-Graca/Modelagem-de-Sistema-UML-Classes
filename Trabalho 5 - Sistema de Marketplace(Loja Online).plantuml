@@ -1,0 +1,161 @@
+@startuml Sistema de Marketplace(Loja Online)
+
+class Marketplace {
+    - idMarketplace
+    + Site
+    +login
+    +Senha
+    +Cadastro
+    +AcessoSite()
+    +Deslogar()
+    CadastrarRegistro()
+}
+
+class Cliente{
+    -idCliente
+    +nome
+    +email
+    -CPF
+    -senha
+    +RegistroCompra
+    -Telefone
+    +ConectarAcesso()
+    +sairConta()
+    +trocarUsuario()
+
+}
+
+class Vendedor{
+    -idVendedor
+    +nome
+    -Registro
+    +CadastrarCliente()
+    +CobrarCliente()
+    +informarCliente()
+}
+
+class Produto{
+    -idProduto
+    +nome
+    -numeroSerie
+    +quantidade
+    +informacao
+    +estoque
+    +CalcularEstoque()
+    +registrarProduto()
+
+}
+
+class CategoriaProduto{
+    -idCategoriaProduto
+    +produtoNovo
+    +produtoUsado
+    +produtoSeminovo
+    +cadastrarProduto()
+    +removerProduto()
+
+}
+
+class CarrinhoCompra{
+    -idCarrinhoCompra
+    +quantidade
+    +SubTotal()
+}
+
+class ItemCarrinho{
+    -idItemCarrinho
+    +quantidade
+    +ValorTotal
+    +calcularItens()
+    +CalcularSelecionados()
+
+}
+
+class Pedido{
+    -idPedido
+    +Valor
+    +dataCompra
+    +registrarCompra()
+    +cadastrarSaida()
+
+}
+
+class ItemPedido{
+    -idItemPedido
+    +RegistroSaida
+    +registrarSaida()
+    +calcularSaidaEstoque()
+
+
+}
+
+class Pagamento {
+    - idPagamento
+    + forma
+    - status
+    +calcularvalores()
+    +informarPagamento()
+
+}
+
+class Entrega{
+    -idEntrega
+    -pontoDistribuicao
+    +status
+    +dataEnvio
+    +dataPrevisao
+    +calcularData()
+    +informarLocal()
+}
+
+class Transportadora{
+    -idTransportadora
+    +empresa
+    +Valor
+    +volume
+    +quantidade
+    -pontoRecolhimento
+    +localDestino
+    +calcularRota()
+    +calcularVolume()
+
+}
+
+class AvaliacaoProduto{
+    -idAvaliacao
+    +status
+    +quantidade
+    +valor
+    +informacao
+    +calcularMedia()
+    +indicarMelhorQualidade()
+}
+
+'=================================================
+'Associação
+Marketplace "1" .. "1..*"Cliente
+AvaliacaoProduto"0..*" .. "1..*"ItemPedido
+Cliente"1..*" .. "0..*"ItemCarrinho
+AvaliacaoProduto"0..*" .. "1..*"Produto
+Vendedor"1..*" .. "0..*"Produto
+
+'==================================================
+'Agregação
+Marketplace"1" o-- "0..*"Vendedor
+ItemCarrinho"1..*" o-- "1"CarrinhoCompra
+ItemPedido"1..*" o-- "1..*"Entrega
+
+'=================================================
+'Composição
+CarrinhoCompra"1..*" *-- "0..*"Pedido
+ItemPedido"1..*" *-- "1"Pedido
+Pagamento"1..*" *-- "1..*"Pedido
+Entrega"1..*" --* "1..*"Transportadora
+CategoriaProduto"1..*" *-- "1..*"ItemCarrinho
+
+'=================================================
+'Herança
+Produto"1..*" <-- "1..*"CategoriaProduto
+Produto"1..*" <-- "1..*"ItemCarrinho
+
+@enduml

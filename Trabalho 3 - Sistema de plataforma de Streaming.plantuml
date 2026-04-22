@@ -1,0 +1,153 @@
+@startuml Sistema de plataforma de Streaming
+
+class Dispositivo{
+-idDispositivo
+-computador
+-android
+-ios
++ligar()
++desligar()
++removerDispositivo()
+}
+class PlataformaStreaming{
+ - idPlataformastreming
+ - email
+ - senha
+ - QrCode
+ +acesssarConta()
+ +removerConta()
+ +adcionarConta()
+}
+
+class Usuario{
+- idUsuario
++ Nome
+- imagem
++AcessarUsuario()
++removerUsuario()
++cadastrarUsuario()
++trocarUsuario()
+}
+
+class Perfil {
+- idPerfil
++ Apelido
++ imagem
++ classificacao
+- favoritos
++trocarUsuario()
++avaliarFavoritos()
++removerFavoritos()
++cadastrarFavoritos()
+
+}
+
+class PlanoAssinatura{
+    -idPlano
+    -planoBasico
+    -plano2telas
+    -plano4telas
+    -valorPlano
+    +ativarPlano()
+    +desativarPlano()
+    +pausarPlano()
+    +renovarPlano()
+    +selecionarPlano()
+}
+
+class Pagamento{
+    -idPagamento
+    -planoSelecionado
+    -formaPagamento
+    -condicaoPagamento
+    +cobrarValor()
+    +retornarPagamento()
+    +interromperServiço()
+
+}
+
+Class Filme{
+    -idFilme 
+    + Nome
+    + dataLançamento
+    + classificacao
+    - dublagem
+    +assistirFilme()
+    +pausarFilme()
+    +avliarFilme()
+    +retroceder()
+    +avançar()
+}
+
+class Serie{
+    -idSerie
+    + Nome
+    + genero
+    + temporada
+    + mediaMinutos
+    + seleciorSerie()
+    + buscarSerie()
+
+}
+
+class Episodio{
+    -idEpisodio
+    +Nome
+    -numero
+    +capitulo
+    +informacao
+    +assistirEpisodio()
+    +retomarEpisodio()
+    +voltarMenu()
+    +avaliarEpisodio()
+}
+
+class Ator {
+    -idAtor
+    +Nome
+    +nomePersonagem
+    +filmes
+    +series
+    +buscarAutor()
+    +salvarFavoritos()
+}
+
+class Avaliacao{
+    + Estrelas
+    +resumoFilme
+    +recomendaçãoIdade
+    +cadastrarAvaliação()
+    +removerAvaliação()
+    +buscarPorAvaliação()
+}
+class listaFavoritos{
+    -Filme
+    -Serie
+    +BuscarFilme()
+    +buscarSerie()
+    +cadastrarFavoritos()
+    +RemoverFavoritos()
+}
+
+'Ligacao de relacinamento
+'Associação
+Dispositivo "1" .. "1" PlataformaStreaming
+Ator "1" .. "0..*" Episodio
+Ator "1" .. "0..*" Filme
+Usuario "1..*".."1"Perfil
+Filme -- Avaliacao
+Episodio -- Avaliacao
+
+'Agregação
+PlanoAssinatura "1" o-- "1..*"Pagamento  
+PlataformaStreaming "1" o-- "1" PlanoAssinatura
+Perfil"1..*" --o "0..*"listaFavoritos
+Filme"1..*" --o "1..*"Perfil
+Serie"1..* " --o "1..*"Perfil
+PlanoAssinatura"1" --o "1..*"Usuario
+
+'Composição
+Episodio "0..*" --* "1..*" Serie
+Pagamento"1..*" --* "1..*"Usuario
+
+@enduml
