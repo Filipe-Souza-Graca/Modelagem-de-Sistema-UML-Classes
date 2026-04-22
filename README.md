@@ -1,5 +1,5 @@
 # Modelagem-de-Sistema-UML-Classes
-Modelagem de Sistemas UML Modelagem de Classes
+Diagrama de UML - Sistema de Classes
 
 
 Modelagem de Sistemas usando classes, atributos, metodos, relacionamento e multiplicidade
