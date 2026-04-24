@@ -11,3 +11,6 @@ Trabalhos de 1 ao 10.
 o exercicio 9 por motivos de restrição da instituição de ensino, não podem ser divulgados.
 
 Trabalhos podem ser vistos em diagramas pela extenção plantuml.
+Continuação do trabalho em Caso de uso.
+
+[Caso de uso](https://github.com/Filipe-Souza-Graca/Materia-de-UML---Caso-de-Uso)
